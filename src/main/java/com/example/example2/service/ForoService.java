@@ -1,12 +1,12 @@
-package com.example.example1.service;
+package com.example.example2.service;
 
-import com.example.example1.exceptions.NotFoundException;
-import com.example.example1.model.Foro;
-import com.example.example1.model.Tema;
-import com.example.example1.model.Comentario;
-import com.example.example1.model.ForoRepository;
-import com.example.example1.model.TemaRepository;
-import com.example.example1.model.ComentarioRepository;
+import com.example.example2.exceptions.NotFoundException;
+import com.example.example2.model.Foro;
+import com.example.example2.model.Tema;
+import com.example.example2.model.Comentario;
+import com.example.example2.model.ForoRepository;
+import com.example.example2.model.TemaRepository;
+import com.example.example2.model.ComentarioRepository;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * ForoService
  */
 @RestController
-@CrossOrigin(origins = "*")
+@RequestMapping("/apiForo")
 public class ForoService {
 
     @Autowired

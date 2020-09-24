@@ -17,7 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /**
- * 
+ *
  * https://www.baeldung.com/securing-a-restful-web-service-with-spring-security
  */
 @Configuration
@@ -30,8 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private RESTAuthSuccessHandler successHandler;
-    
-    
+
+
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
 
@@ -39,6 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
             .withUser("admin").password(encoder().encode("password")).roles("ADMIN")
+            .and()
+            .withUser("moderator").password(encoder().encode("password")).roles("MODERATOR")
             .and()
             .withUser("user").password(encoder().encode("password")).roles("USER");
     }
@@ -53,17 +55,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authenticationEntryPoint(entryPoint)
             .and()
             .authorizeRequests()
-                .antMatchers("/public/**", "/login/**").permitAll()
+                .antMatchers("/login/**").permitAll()
                 // Uncomment this to enable H2 console
                 // .antMatchers("/h2/**").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/apiForo/**").hasRole("ADMIN")
+                //.antMatchers("/**").hasRole("MODERATOR")
+                .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
             .and()
             .formLogin()
                 .successHandler(successHandler)
                 .failureHandler(new SimpleUrlAuthenticationFailureHandler())
             .and()
-            .logout() 
+            .logout()
                 .logoutSuccessHandler(logoutSuccessHandler)
             .and()
             // Uncomment this to enable H2 console
@@ -73,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * https://www.baeldung.com/spring-bean-annotations
-     * 
+     *
      */
     @Bean
     public PasswordEncoder encoder() {

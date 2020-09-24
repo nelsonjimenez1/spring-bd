@@ -1,4 +1,4 @@
-package com.example.example1.model;
+package com.example.example2.model;
 
 import org.springframework.data.repository.CrudRepository;
 

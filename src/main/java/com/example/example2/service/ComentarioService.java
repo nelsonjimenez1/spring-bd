@@ -1,8 +1,8 @@
-package com.example.example1.service;
+package com.example.example2.service;
 
-import com.example.example1.exceptions.NotFoundException;
-import com.example.example1.model.Comentario;
-import com.example.example1.model.ComentarioRepository;
+import com.example.example2.exceptions.NotFoundException;
+import com.example.example2.model.Comentario;
+import com.example.example2.model.ComentarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,7 +26,7 @@ public class ComentarioService {
 
     @GetMapping("/comentarios/{id}")
     Comentario findComentario(@PathVariable Long id) {
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("Foro not found"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Comentario not found"));
     }
 
     @PostMapping("/comentarios")

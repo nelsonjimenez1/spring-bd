@@ -1,5 +1,4 @@
-//mvnw spring-boot:run
-package com.example.example1.model;
+package com.example.example2.model;
 
 import java.util.List;
 import javax.persistence.Entity;

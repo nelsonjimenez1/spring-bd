@@ -7,11 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/admin")
 class AdminService {
-
-
     @GetMapping(value="/test", produces = MediaType.APPLICATION_JSON_VALUE)
     public String test() {
         return "{\"message\": \"admin OK\"}";
     }
-
 }

@@ -1,12 +1,12 @@
-package com.example.example1.service;
+package com.example.example2.service;
 
-import com.example.example1.exceptions.NotFoundException;
-import com.example.example1.model.Foro;
-import com.example.example1.model.Tema;
-import com.example.example1.model.Comentario;
-import com.example.example1.model.ForoRepository;
-import com.example.example1.model.TemaRepository;
-import com.example.example1.model.ComentarioRepository;
+import com.example.example2.exceptions.NotFoundException;
+import com.example.example2.model.Foro;
+import com.example.example2.model.Tema;
+import com.example.example2.model.Comentario;
+import com.example.example2.model.ForoRepository;
+import com.example.example2.model.TemaRepository;
+import com.example.example2.model.ComentarioRepository;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class TemaService {
 
     @GetMapping("/temas/{id}")
     Tema findTema(@PathVariable Long id) {
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("Foro not found"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Tema not found"));
     }
 
     @GetMapping("/temas/{id}/comentarios")
