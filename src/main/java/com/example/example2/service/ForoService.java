@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * ForoService
  */
 @RestController
-@RequestMapping("/apiForo")
 public class ForoService {
 
     @Autowired
@@ -50,12 +50,12 @@ public class ForoService {
         return repository.findById(forosId).get().getTemas();
     }
 
-    @PostMapping("/foros")
+    @RequestMapping(value = "/admin/foros", method = RequestMethod.POST)
     Foro createForo(@RequestBody Foro foro) {
         return repository.save(foro);
     }
 
-    @DeleteMapping("/foros/{id}")
+    @RequestMapping(value = "/admin/foros/{id}", method = RequestMethod.DELETE)
     void deleteForo(@PathVariable Long id) {
         if (repository.existsById(id)) {
             ArrayList<Tema> temas = new ArrayList<>(repository.findById(id).get().getTemas());

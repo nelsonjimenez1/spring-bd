@@ -56,9 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .authorizeRequests()
                 .antMatchers("/login/**").permitAll()
-                // Uncomment this to enable H2 console
-                // .antMatchers("/h2/**").permitAll()
-                .antMatchers("/apiForo/**").hasRole("ADMIN")
+                .antMatchers("/h2/**").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 //.antMatchers("/**").hasRole("MODERATOR")
                 .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
