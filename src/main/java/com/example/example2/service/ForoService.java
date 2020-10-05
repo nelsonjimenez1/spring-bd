@@ -8,6 +8,8 @@ import com.example.example2.model.ForoRepository;
 import com.example.example2.model.TemaRepository;
 import com.example.example2.model.ComentarioRepository;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -47,7 +49,16 @@ public class ForoService {
     @GetMapping("/foros/{id}/temas")
     Iterable<Tema> findAllTemas(@PathVariable("id") Long forosId) {
         // What happens if the company does not exist in the DB?
-        return repository.findById(forosId).get().getTemas();
+        ArrayList<Tema> temas = new ArrayList<>(repository.findById(forosId).get().getTemas());
+        Collections.sort(temas, new Comparator() {
+	          @Override
+	          public int compare(Object t1, Object t2) {
+              Tema to1 = (Tema) t1;
+              Tema to2 = (Tema) t2;
+              return new Integer(to2.getRanking()).compareTo(new Integer(to1.getRanking()));
+	          }
+        });
+        return temas;
     }
 
     @RequestMapping(value = "/admin/foros", method = RequestMethod.POST)
@@ -61,10 +72,10 @@ public class ForoService {
             ArrayList<Tema> temas = new ArrayList<>(repository.findById(id).get().getTemas());
 
             for (int i = 0; i < temas.size(); i++) {
-              for (int j = 0; j < temas.get(i).getComentarios().size(); j++) {
-                repositoryComentario.deleteById(temas.get(i).getComentarios().get(j).getId());
-              }
-              repositoryTema.deleteById(temas.get(i).getId());
+                for (int j = 0; j < temas.get(i).getComentarios().size(); j++) {
+                    repositoryComentario.deleteById(temas.get(i).getComentarios().get(j).getId());
+                }
+                repositoryTema.deleteById(temas.get(i).getId());
             }
             repository.deleteById(id);
         }

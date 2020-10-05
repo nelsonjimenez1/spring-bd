@@ -26,6 +26,9 @@ public class Tema {
     @ManyToOne
     private Foro foro;
 
+    private boolean aprobado;
+    private int ranking;
+
     public Long getId() {
         return id;
     }
@@ -72,5 +75,21 @@ public class Tema {
 
     public void setForo(Foro foro) {
         this.foro = foro;
+    }
+
+    public boolean isAprobado() {
+        return aprobado;
+    }
+
+    public void setAprobado(boolean aprobado) {
+        this.aprobado = aprobado;
+    }
+
+    public int getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
     }
 }

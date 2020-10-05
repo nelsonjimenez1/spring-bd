@@ -8,6 +8,8 @@ import com.example.example2.model.ForoRepository;
 import com.example.example2.model.TemaRepository;
 import com.example.example2.model.ComentarioRepository;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,12 +20,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * TemaService
  */
 @RestController
-@CrossOrigin(origins = "*")
 public class TemaService {
 
     @Autowired
@@ -39,7 +42,23 @@ public class TemaService {
     @GetMapping("/temas/{id}/comentarios")
     Iterable<Comentario> findAllComentarios(@PathVariable("id") Long temasId) {
         // What happens if the company does not exist in the DB?
-        return repository.findById(temasId).get().getComentarios();
+        ArrayList<Comentario> comentarios = new ArrayList<>(repository.findById(temasId).get().getComentarios());
+        ArrayList<Comentario> comentariosR = new ArrayList<Comentario>();
+
+        for (int i = 0; i < comentarios.size(); i++) {
+          if (comentarios.get(i).getIdRespuesta() == null) {
+            comentariosR.add(comentarios.get(i));
+          }
+        }
+        Collections.sort(comentariosR, new Comparator() {
+	          @Override
+	          public int compare(Object c1, Object c2) {
+                Comentario co1 = (Comentario) c1;
+                Comentario co2 = (Comentario) c2;
+                return new Integer(co2.getRanking()).compareTo(new Integer(co1.getRanking()));
+	          }
+        });
+        return comentariosR;
     }
 
     @PostMapping("/temas")
@@ -59,5 +78,27 @@ public class TemaService {
         else {
             throw new NotFoundException();
         }
+    }
+
+    @RequestMapping(value = "/moderator/temas/{id}", method = RequestMethod.PUT)
+    Tema aprobarTema(@PathVariable Long id, @RequestBody Tema temaData) {
+        if(temaData.isAprobado()) {
+            Tema tema = findTema(id);
+            tema.setAprobado(temaData.isAprobado());
+            return repository.save(tema);
+        }
+        else {
+            deleteTema(id);
+        }
+        return null;
+    }
+
+    @PutMapping("/temas/{id}")
+    Tema updateTema(@PathVariable Long id, @RequestBody Tema temaData) {
+        Tema tema = findTema(id);
+        tema.setTitulo(temaData.getTitulo());
+        tema.setDescripcion(temaData.getDescripcion());
+        tema.setRanking(temaData.getRanking());
+        return repository.save(tema);
     }
 }

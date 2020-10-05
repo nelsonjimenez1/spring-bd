@@ -20,6 +20,8 @@ public class Foro {
     @JsonIgnore // https://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
     private List<Tema> temas;
 
+    private boolean moderado;
+
     public Long getId() {
         return id;
     }
@@ -42,5 +44,13 @@ public class Foro {
 
     public void setTemas(List<Tema> temas) {
         this.temas = temas;
+    }
+
+    public boolean isModerado() {
+        return moderado;
+    }
+
+    public void setModerado(boolean moderado) {
+        this.moderado = moderado;
     }
 }
