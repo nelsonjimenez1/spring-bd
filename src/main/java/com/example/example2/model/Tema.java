@@ -21,7 +21,7 @@ public class Tema {
 
     private String titulo;
     private String descripcion;
-    private Date fecha;
+    private String fecha;
 
     @ManyToOne
     private Foro foro;
@@ -61,11 +61,11 @@ public class Tema {
         this.descripcion = descripcion;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
